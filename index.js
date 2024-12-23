@@ -19,7 +19,7 @@ const io = new Server(server, {
 });
 
 // WebSocket 서버 포트 설정
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 
 // 기본 HTTP GET 요청 처리
 app.get("/", (req, res) => {
