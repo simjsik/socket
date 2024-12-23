@@ -5,20 +5,26 @@ const { Server } = require('socket.io');
 const cors = require('cors'); // cors 모듈 import 추가
 
 const app = express();
-app.use(cors({ origin: "http://localhost:3000" })); // CORS 미들웨어 추가
+app.use(cors());
+app.use(express.json()); // JSON 요청 처리
 
 const server = http.createServer(app);
 
 // Socket.IO 서버 초기화
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000", // 허용할 클라이언트 도메인
+        origin: "*", // 허용할 클라이언트 도메인
         methods: ["GET", "POST"],       // 허용할 HTTP 메서드
     },
 });
 
 // WebSocket 서버 포트 설정
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
+
+// 기본 HTTP GET 요청 처리
+app.get("/", (req, res) => {
+    res.status(200).send("WebSocket 서버가 실행 중입니다.");
+});
 
 // WebSocket 연결 이벤트
 io.on('connection', (socket) => {
