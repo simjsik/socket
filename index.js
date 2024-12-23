@@ -18,7 +18,7 @@ const io = new Server(server, {
 });
 
 // WebSocket 서버 포트 설정
-const PORT = 3001;
+const PORT = 8000;
 
 // WebSocket 연결 이벤트
 io.on('connection', (socket) => {
