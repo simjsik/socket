@@ -13,7 +13,7 @@ const server = http.createServer(app);
 // Socket.IO 서버 초기화
 const io = new Server(server, {
     cors: {
-        origin: "*", // 허용할 클라이언트 도메인
+        origin: "http://localhost:3000/", // 허용할 클라이언트 도메인
         methods: ["GET", "POST"],       // 허용할 HTTP 메서드
     },
 });
