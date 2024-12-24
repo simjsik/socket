@@ -52,7 +52,9 @@ io.on('connection', (socket) => {
         if (uid) {
             try {
                 const db = getFirestore();
+                console.log('접근 유저 아이디', uid)
                 const noticesSnap = await db.collection(`users/${uid}/noticeList`).get();
+                console.log('접근 유저 알림 리스트', noticesSnap)
                 const notices = noticesSnap.docs.map(doc => ({
                     noticeId: doc.id,
                     noticeType: doc.data().noticeType,
@@ -65,8 +67,7 @@ io.on('connection', (socket) => {
                 console.error("초기 알림 조회 실패:", error);
             }
         } else {
-            console.log("초기 알림 조회 실패:", uid);
-
+            console.log("초기 알림 조회 실패: uid 없음.");
         }
     });
 
