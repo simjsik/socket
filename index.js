@@ -63,6 +63,9 @@ io.on('connection', (socket) => {
             } catch (error) {
                 console.error("초기 알림 조회 실패:", error);
             }
+        } else {
+            console.log("초기 알림 조회 실패:", uid);
+
         }
     });
 
