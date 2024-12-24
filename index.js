@@ -3,12 +3,19 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors'); // cors 모듈 import 추가
+const { initializeApp } = require('firebase/app');
+const { getFirestore } = require('firebase/firestore');
+const firebaseConfig = require('./firebaseConfig'); // firebaseConfig 가져오기
 
 const app = express();
 app.use(cors());
 app.use(express.json()); // JSON 요청 처리
 
 const server = http.createServer(app);
+
+// Firebase 초기화
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
 // Socket.IO 서버 초기화
 const io = new Server(server, {
@@ -51,7 +58,6 @@ io.on('connection', (socket) => {
         // 알림 데이터 초기 전송
         if (uid) {
             try {
-                const db = getFirestore();
                 console.log('접근 유저 아이디', uid)
                 const noticesSnap = await db.collection(`users/${uid}/noticeList`).get();
                 console.log('접근 유저 알림 리스트', noticesSnap)
