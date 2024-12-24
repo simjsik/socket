@@ -39,14 +39,34 @@ app.post("/notice", (req, res) => {
 });
 
 // WebSocket 연결 이벤트
-io.on('connection', (socket) => {
-    console.log('클라이언트 연결 성공');
+io.on('connection', async (socket) => {
+    const { uid } = socket.handshake.query;
+    console.log(`사용자 연결됨, UID: ${uid}`);
+    socket.uid = uid;
 
-    // 클라이언트 연결 해제 이벤트
+    // 알림 데이터 초기 전송
+    if (uid) {
+        try {
+            const db = getFirestore();
+            const noticesSnap = await db.collection(`users/${uid}/notice`).get();
+            const notices = noticesSnap.docs.map(doc => ({
+                noticeId: doc.id,
+                noticeType : doc.data().noticeType,
+                noticeText : doc.data().noticeTitle,
+                noticeAt : doc.data().noticeAt,
+                ...doc.data(),
+            }));
+            socket.emit("initial-notices", notices);
+        } catch (error) {
+            console.error("초기 알림 조회 실패:", error);
+        }
+    }
+
     socket.on('disconnect', () => {
         console.log('클라이언트 연결 종료');
     });
 });
+
 
 // 서버 실행
 server.listen(PORT, () => {
