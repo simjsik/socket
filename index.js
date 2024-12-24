@@ -40,6 +40,7 @@ app.post("/notice", (req, res) => {
 
 // WebSocket 연결 이벤트
 io.on('connection', (socket) => {
+    console.log("웹소켓 연결 완료");
 
     // 클라이언트에서 UID를 수신하는 이벤트
     socket.on("register", async (data) => {
@@ -51,7 +52,7 @@ io.on('connection', (socket) => {
         if (uid) {
             try {
                 const db = getFirestore();
-                const noticesSnap = await db.collection(`users/${uid}/notice`).get();
+                const noticesSnap = await db.collection(`users/${uid}/noticeList`).get();
                 const notices = noticesSnap.docs.map(doc => ({
                     noticeId: doc.id,
                     noticeType: doc.data().noticeType,
