@@ -1,4 +1,6 @@
 // server/index.js
+require('dotenv').config(); // 환경 변수 로드
+
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
