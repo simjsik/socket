@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics, isSupported } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage";
+const { initializeApp } = require("firebase/app")
+const { getAnalytics, isSupported } = require("firebase/analytics")
+const { getFirestore } = require("firebase/firestore")
+const { getAuth } = require("firebase/auth")
+const { getStorage } = require("firebase/storage")
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -30,7 +30,8 @@ if (typeof window !== "undefined") {
     });
 } // Firebase Analytics는 브라우저 환경에서만 사용할 수 있기때문에 설정
 
-export const storage = getStorage(app);
-export const auth = getAuth(app);          // Firebase Auth 인스턴스
-export const db = getFirestore(app);       // Firestore 인스턴스
-
+module.exports = {
+    storage: getStorage(app),
+    auth: getAuth(app),
+    db: getFirestore(app),
+};
